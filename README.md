@@ -34,19 +34,27 @@ Simple sequence charts and small flowcharts usually look good. Dense multi-hop `
 
 ### Homebrew (macOS / Linux)
 
+Homebrew core already has unrelated formulae named `leaf` (Go reloader) and `leaf-md` (upstream Markdown viewer). Install **this fork** with a fully qualified name:
+
 ```bash
 brew tap Shi1xin/leaf https://github.com/Shi1xin/leaf
-brew install leaf
+brew install shi1xin/leaf/leaf
+```
+
+If brew reports a conflict, remove the other package first:
+
+```bash
+brew uninstall leaf      # Go reloader, if present
+brew uninstall leaf-md   # upstream markdown leaf, if present
+brew install shi1xin/leaf/leaf
 ```
 
 Upgrade later:
 
 ```bash
 brew update
-brew upgrade leaf
+brew upgrade shi1xin/leaf/leaf
 ```
-
-If you already have the official [RivoLink/leaf](https://github.com/RivoLink/leaf) binary named `leaf`, uninstall or rename it first, or install this formula into a separate prefix.
 
 ### Install script (prebuilt binary)
 

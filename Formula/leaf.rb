@@ -12,6 +12,12 @@ class Leaf < Formula
   version "1.26.3"
   license "MIT"
 
+  # homebrew-core already ships unrelated `leaf` (Go reloader) and upstream
+  # markdown viewer as `leaf-md`. Fully qualify this formula when installing:
+  #   brew install shi1xin/leaf/leaf
+  conflicts_with "leaf", because: "both install `leaf` binaries"
+  conflicts_with "leaf-md", because: "both install `leaf` binaries"
+
   livecheck do
     url :stable
     regex(/^v?(\d+(?:\.\d+)+)$/i)
