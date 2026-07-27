@@ -7,64 +7,75 @@
 </p>
 
 <p align="center">
+  <strong>Fork of <a href="https://github.com/RivoLink/leaf">RivoLink/leaf</a></strong> with a Grok-based Unicode Mermaid renderer.
+</p>
+
+<p align="center">
   <img src="images/preview.png" alt="leaf" width="710px" /><br>
   <sub>See more screenshots in the <a href="demo/README.md">features</a> demo</sub>
 </p>
 
-## Install
+## What changed in this fork
 
-Install the latest published binary.
+Upstream leaf renders Mermaid via the [`mmdflux`](https://crates.io/crates/mmdflux) crate. This fork **replaces that dependency** with the self-contained Unicode Mermaid engine from [xAI Grok Build](https://github.com/xai-org/grok-build) (`xai-grok-markdown` mermaid module), vendored as `src/markdown/mermaid_engine.rs` under Apache-2.0 (see [`NOTICE`](NOTICE)).
 
-**macOS / Linux / Android / Termux:**
+| Topic | Behavior in this fork |
+|---|---|
+| Engine | Grok terminal box-drawing renderer (no Node, no browser, no mmdflux) |
+| Diagram types drawn as art | `flowchart` / `graph`, `sequenceDiagram`, `stateDiagram`, `classDiagram`, `erDiagram` |
+| `pie` | Local horizontal bar chart (same approach as upstream leaf) |
+| Unsupported types (`gantt`, …) | Framed source with syntax coloring and line numbers |
+| Too wide / oversize canvas | Falls back to colored source (same frame as unsupported types) |
+| Attribution | Apache-2.0 notice for the ported engine in `NOTICE` |
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/RivoLink/leaf/main/scripts/install.sh | sh
-```
+Simple sequence charts and small flowcharts usually look good. Dense multi-hop `flowchart LR` graphs with many back-edges may be clearer as **source fallback** than as full-width art — that is a limit of the Unicode layout engine, not of leaf’s framing.
 
-**Windows:**
+## Install (this fork)
 
-```powershell
-irm https://raw.githubusercontent.com/RivoLink/leaf/main/scripts/install.ps1 | iex
-```
+This repository does not ship the same prebuilt release pipeline as upstream. Install from source:
 
-**npm:**
-
-```bash
-npm install -g @rivolink/leaf
-```
-
-**ArchLinux (AUR):**
-
-Use an [AUR helper](https://wiki.archlinux.org/title/AUR_helpers), such as `yay`:
+**Requirements:** [Rust](https://rustup.rs/) (stable toolchain), a C linker (Xcode CLT on macOS, `build-essential` on Debian/Ubuntu, etc.).
 
 ```bash
-yay -S leaf-markdown-viewer
+git clone https://github.com/Shi1xin/leaf.git
+cd leaf
+cargo build --release
 ```
 
-**Verify the installation:**
+Install the binary somewhere on your `PATH` (example: `~/.local/bin`):
 
 ```bash
+mkdir -p ~/.local/bin
+cp -f target/release/leaf ~/.local/bin/leaf
+chmod 755 ~/.local/bin/leaf
+
+# ensure PATH includes ~/.local/bin, then:
 leaf --version
 ```
 
-## Update
-
-Update an existing installation to the latest published release.
-
-**Self:**
+Or run without installing:
 
 ```bash
-leaf --update
+cargo run --release -- path/to/file.md
 ```
 
-`leaf --update` downloads the matching published asset, verifies it against the published `checksums.txt` SHA256, and then installs it.
-
-On Windows, if replacing the running `.exe` is blocked by the OS, rerun the PowerShell installer from the install section.
-
-**npm:**
+**Verify Mermaid art** (should draw a sequence diagram, not only raw `sequenceDiagram` source):
 
 ```bash
-npm update -g @rivolink/leaf
+leaf --inline plain:100 demo/sources/demo-mermaid-render.md
+```
+
+### Upstream official binaries
+
+For stock leaf (mmdflux Mermaid, published assets, `leaf --update`, npm, AUR), use [RivoLink/leaf](https://github.com/RivoLink/leaf) install instructions. Do not use `leaf --update` from this fork if your binary was built from source — that command targets **upstream** GitHub releases and would overwrite your fork build.
+
+## Update (this fork)
+
+```bash
+cd /path/to/leaf
+git pull
+cargo build --release
+cp -f target/release/leaf ~/.local/bin/leaf
 ```
 
 ## Usage
@@ -282,7 +293,7 @@ See [`gruvbox.toml`](gruvbox.toml) for a complete example with all available col
 - **Syntax highlighting** : *Common aliases like `py`, `cpp`, `json`, `toml`, `ps1`, `dockerfile`*.
 - **Line numbers** : *Toggle display with `Shift+L`, jump to a line with `Ctrl+L`*.
 - **LaTeX support** : *Inline, block, and `latex` / `tex` code blocks rendered as formulas*.
-- **Mermaid diagrams** : *`mermaid` code blocks rendered as ASCII diagrams*.
+- **Mermaid diagrams** : *`mermaid` code blocks rendered as Unicode box-drawing art via the Grok terminal engine (this fork); unsupported or oversize diagrams fall back to colored source*.
 - **Clickable links** : *`Ctrl+Click` to open, double-click to copy, hover feedback*.
 - **Code block interactions** : *Focus and copy with `y/Y` / `c/C`, or double-click on a block*.
 - **Mouse capture** : *`Shift+M` to toggle mouse capture and let the terminal handle selection*.
