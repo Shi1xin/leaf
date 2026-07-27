@@ -9,7 +9,8 @@ use std::{
     time::Duration,
 };
 
-const REPOS: &[&str] = &["RivoLink/leaf", "leaf-mg/leaf"];
+// Prefer this fork's releases first; fall back to known upstream mirrors.
+const REPOS: &[&str] = &["Shi1xin/leaf", "RivoLink/leaf", "leaf-mg/leaf"];
 const CHECKSUMS_ASSET_NAME: &str = "checksums.txt";
 const HTTP_TIMEOUT: Duration = Duration::from_secs(20);
 

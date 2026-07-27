@@ -4,7 +4,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$Repo = "RivoLink/leaf"
+$Repo = "Shi1xin/leaf"
 $AssetName = "leaf-windows-x86_64.exe"
 
 function Write-Info {

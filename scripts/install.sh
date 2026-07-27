@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-REPO="RivoLink/leaf"
+REPO="Shi1xin/leaf"
 DEST_DIR="${1:-$HOME/.local/bin}"
 DEST_BIN="$DEST_DIR/leaf"
 

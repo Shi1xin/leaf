@@ -9,7 +9,8 @@ jobs:
   publish:
     name: Publish npm packages
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Fork builds do not publish npm packages (upstream-only).
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.repository == 'RivoLink/leaf' }}
 
     permissions:
       contents: read

@@ -32,49 +32,86 @@ Simple sequence charts and small flowcharts usually look good. Dense multi-hop `
 
 ## Install (this fork)
 
-This repository does not ship the same prebuilt release pipeline as upstream. Install from source:
+### Homebrew (macOS / Linux)
 
-**Requirements:** [Rust](https://rustup.rs/) (stable toolchain), a C linker (Xcode CLT on macOS, `build-essential` on Debian/Ubuntu, etc.).
+```bash
+brew tap Shi1xin/leaf https://github.com/Shi1xin/leaf
+brew install leaf
+```
+
+Upgrade later:
+
+```bash
+brew update
+brew upgrade leaf
+```
+
+If you already have the official [RivoLink/leaf](https://github.com/RivoLink/leaf) binary named `leaf`, uninstall or rename it first, or install this formula into a separate prefix.
+
+### Install script (prebuilt binary)
+
+**macOS / Linux / Android / Termux:**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Shi1xin/leaf/main/scripts/install.sh | sh
+```
+
+**Windows:**
+
+```powershell
+irm https://raw.githubusercontent.com/Shi1xin/leaf/main/scripts/install.ps1 | iex
+```
+
+Default install location: `~/.local/bin/leaf` (Unix) or `%LOCALAPPDATA%\Programs\leaf` (Windows). Ensure that directory is on your `PATH`.
+
+```bash
+leaf --version
+```
+
+Self-update (downloads the latest **Shi1xin/leaf** GitHub Release):
+
+```bash
+leaf --update
+```
+
+### From source
+
+**Requirements:** [Rust](https://rustup.rs/) (stable), a C linker (Xcode CLT on macOS, `build-essential` on Debian/Ubuntu, etc.).
 
 ```bash
 git clone https://github.com/Shi1xin/leaf.git
 cd leaf
 cargo build --release
-```
-
-Install the binary somewhere on your `PATH` (example: `~/.local/bin`):
-
-```bash
-mkdir -p ~/.local/bin
 cp -f target/release/leaf ~/.local/bin/leaf
-chmod 755 ~/.local/bin/leaf
-
-# ensure PATH includes ~/.local/bin, then:
-leaf --version
 ```
 
-Or run without installing:
+### Side-by-side with official leaf
+
+Keep stock leaf under another name for comparison:
 
 ```bash
-cargo run --release -- path/to/file.md
+# after installing official leaf somewhere:
+mv ~/.local/bin/leaf ~/.local/bin/leaf-official   # or use upstream’s installer into a temp dir
+# then install this fork as `leaf` via brew or install.sh
+leaf --version            # fork (Grok Mermaid)
+leaf-official --version   # upstream (mmdflux)
 ```
 
-**Verify Mermaid art** (should draw a sequence diagram, not only raw `sequenceDiagram` source):
+### Upstream-only install
 
-```bash
-leaf --inline plain:100 demo/sources/demo-mermaid-render.md
-```
-
-### Upstream official binaries
-
-For stock leaf (mmdflux Mermaid, published assets, `leaf --update`, npm, AUR), use [RivoLink/leaf](https://github.com/RivoLink/leaf) install instructions. Do not use `leaf --update` from this fork if your binary was built from source — that command targets **upstream** GitHub releases and would overwrite your fork build.
+For stock leaf (mmdflux Mermaid, npm, AUR), see [RivoLink/leaf](https://github.com/RivoLink/leaf).
 
 ## Update (this fork)
 
 ```bash
-cd /path/to/leaf
-git pull
-cargo build --release
+# Homebrew
+brew upgrade leaf
+
+# install.sh binary
+leaf --update
+
+# source checkout
+cd /path/to/leaf && git pull && cargo build --release
 cp -f target/release/leaf ~/.local/bin/leaf
 ```
 

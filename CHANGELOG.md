@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-version -->
 
+## [[1.26.3](https://github.com/Shi1xin/leaf/releases/tag/1.26.3)] - 2026-07-27
+
+Fork release ([Shi1xin/leaf](https://github.com/Shi1xin/leaf)).
+
+### Changed
+
+- replace mmdflux with Grok Unicode Mermaid renderer (`mermaid_engine.rs`)
+- install / self-update point at `Shi1xin/leaf` releases
+- Homebrew formula under `Formula/leaf.rb`
+
+### Docs
+
+- fork install notes and Mermaid behavior in README
+
 ## [[1.26.2](https://github.com/RivoLink/leaf/releases/tag/1.26.2)] - 2026-07-27
 
 ### Docs
