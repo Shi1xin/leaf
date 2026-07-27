@@ -500,7 +500,15 @@ pub(super) fn push_mermaid_block_lines(
     ctx: EmbeddedBlockCtx<'_>,
     item_stack: &mut [ItemState],
 ) -> BlockLayout {
-    let rendered = mermaid::render(content);
+    // Leave room for the mermaid frame borders and any quote/list prefix so
+    // the layout engine sizes boxes for the usable content columns.
+    let max_diagram_width = ctx
+        .render_width
+        .saturating_sub(ctx.blockquote_depth.saturating_mul(2))
+        .saturating_sub(ctx.list_stack.len().saturating_mul(2))
+        .saturating_sub(6)
+        .max(20);
+    let rendered = mermaid::render(content, Some(max_diagram_width));
     let use_rendered = rendered.is_some();
     let content_lines: Vec<&str> = if let Some(ref r) = rendered {
         r.lines().collect()

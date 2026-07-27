@@ -1,0 +1,15 @@
+leaf includes third-party software.
+
+--------------------------------------------------------------------------------
+Unicode Mermaid terminal renderer
+--------------------------------------------------------------------------------
+Source:  xAI Grok Build (xai-org/grok-build)
+File:    crates/codegen/xai-grok-markdown/src/mermaid.rs
+In tree: src/markdown/mermaid_engine.rs
+Copyright 2023-2026 SpaceXAI
+License: Apache License, Version 2.0
+         http://www.apache.org/licenses/LICENSE-2.0
+
+Local changes in this tree:
+  - MermaidArt::is_fallback so leaf can fall back to framed source display
+  - Attribution header on mermaid_engine.rs

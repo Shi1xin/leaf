@@ -1,17 +1,45 @@
 use crate::theme::MarkdownTheme;
-use mmdflux::{render_diagram, OutputFormat, RenderConfig};
 use ratatui::{style::Style, text::Span};
 use std::fmt::Write;
 
-pub(crate) fn render(content: &str) -> Option<String> {
+use super::mermaid_engine::{self, MermaidStyles};
+
+/// Render Mermaid source as Unicode diagram art.
+///
+/// Returns `Some` for a successful diagram layout (and for local pie charts).
+/// Returns `None` for empty input, unsupported diagram types, or engine
+/// fallback so the caller can show the original source with line numbers.
+pub(crate) fn render(content: &str, max_width: Option<usize>) -> Option<String> {
     let trimmed = content.trim();
     if trimmed.is_empty() {
         return None;
     }
-    if trimmed.starts_with("pie") {
+    if is_pie(trimmed) {
         return render_pie(trimmed);
     }
-    render_diagram(trimmed, OutputFormat::Text, &RenderConfig::default()).ok()
+
+    let styles = MermaidStyles {
+        border: Style::default(),
+        node_text: Style::default(),
+        edge: Style::default(),
+        edge_label: Style::default(),
+        title: Style::default(),
+    };
+    let art = mermaid_engine::render(trimmed, &styles, max_width)?;
+    if art.is_fallback {
+        return None;
+    }
+    Some(art.plain_lines.join("\n"))
+}
+
+fn is_pie(content: &str) -> bool {
+    content
+        .lines()
+        .find(|l| !l.trim().is_empty())
+        .is_some_and(|l| {
+            let t = l.trim();
+            t == "pie" || t.starts_with("pie ") || t.starts_with("pie\t")
+        })
 }
 
 fn render_pie(content: &str) -> Option<String> {

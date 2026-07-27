@@ -7,6 +7,7 @@ mod links;
 mod lists;
 mod markers;
 mod mermaid;
+mod mermaid_engine;
 mod spans;
 mod syntax;
 mod table_layout;

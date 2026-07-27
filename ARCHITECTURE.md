@@ -36,7 +36,8 @@
   - `tables.rs`  :  table construction, event handling, and rendering
   - `table_layout.rs`  :  table cell sizing, wrapping, and alignment algorithms
   - `latex.rs`  :  LaTeX-to-Unicode conversion: `unicodeit` + postprocessing for `\frac`, `\sqrt`, `^{}`, `_{}`
-  - `mermaid.rs`  :  Mermaid diagram ASCII rendering
+  - `mermaid.rs`  :  Mermaid facade (pie bars, source colorize, width handoff)
+  - `mermaid_engine.rs`  :  Grok Unicode Mermaid renderer (flowchart/sequence/state/class/er)
   - `frontmatter.rs`  :  YAML frontmatter extraction and key-value parsing
   - `toc.rs`  :  TOC extraction and normalization
   - `width.rs`  :  width-aware helpers
